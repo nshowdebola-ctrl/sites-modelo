@@ -1,1 +1,3 @@
 __pycache__/
+ia/node_modules/
+ia/.wrangler/

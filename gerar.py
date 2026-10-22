@@ -1,11 +1,16 @@
 """Gera os sites modelo (negócios fictícios) a partir dos dados abaixo.
 
-  python3 gerar.py     → escreve index.html e padaria/, barbearia/, oficina/
+  python3 gerar.py     → escreve index.html e padaria/, barbearia/, salao/, restaurante/, oficina/
 
 O botão de WhatsApp de cada modelo leva para o WhatsApp de quem faz os sites,
 com uma mensagem pronta ("vi o modelo e quero um site assim").
+
+Um modelo com a chave "assistente" ganha o assistente virtual (assistente.js). Os dados
+dele também vão para ia/src/dados/, de onde o Worker do Cloudflare (ia/) monta as
+instruções da IA. Sem IA_URL, ou se a IA falhar, o assistente responde sozinho no navegador.
 """
 
+import json
 from html import escape
 from pathlib import Path
 from urllib.parse import quote
@@ -15,6 +20,9 @@ WHATS = "5541974002540"
 WHATS_TEXTO = "(41) 97400-2540"
 EMAIL = "ccbgyn2000@gmail.com"
 PASTA = Path(__file__).resolve().parent
+# Endereço do Worker depois de publicado (ia/LEIA-ME.md), por exemplo
+# "https://assistente-sites-modelo.SEU-NOME.workers.dev". Vazio = só o assistente local.
+IA_URL = "https://assistente-sites-modelo.assistente-sites-modelo.workers.dev"
 
 ICONE_ZAP = ('<svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.3.6 '
              '4.5 1.8 6.4L3 29l7.2-1.9c1.8 1 3.8 1.5 5.9 1.5 7 0 12.7-5.7 12.7-12.7S23 3 16 3zm0 23.2c-1.9 0-3.8-.5-5.4-1.5l-.4-.2'
@@ -69,6 +77,87 @@ SITES = [
         "msg": "Olá! Vi o modelo de site da barbearia e quero um site assim para o meu negócio.",
     },
     {
+        "pasta": "salao", "nome": "Salão Fio de Seda", "icone": "💇‍♀️",
+        "ramo": "salão de cabeleireiro",
+        "cores": {"fundo": "#fdf7f9", "cor": "#9d174d", "cor-escura": "#701a3e", "cor-clara": "#fbe4ee"},
+        "titulo": "Cabelo bonito do jeito que você sempre quis",
+        "chamada": "Corte, cor, mechas e tratamentos com profissionais que escutam você. "
+                   "Tire dúvidas com o nosso assistente virtual a qualquer hora e agende pelo WhatsApp.",
+        "botao": "Agendar pelo WhatsApp",
+        "selos": ["✔ Assistente virtual 24h", "✔ Especialistas em cachos", "✔ Progressiva sem formol"],
+        "titulo_itens": "Serviços", "sub_itens": "Valores para cabelo médio. Química varia com o comprimento.",
+        "itens": [
+            ("✂️", "Corte feminino", "Lavagem, corte e finalização. Também corte a seco para cachos.", "R$ 80,00"),
+            ("💨", "Escova", "Escova modelada, lisa ou com movimento.", "a partir de R$ 50,00"),
+            ("🎨", "Coloração", "Retoque de raiz ou cor global, cobrindo os fios brancos.", "a partir de R$ 120,00"),
+            ("✨", "Mechas e luzes", "Luzes, balayage e morena iluminada.", "a partir de R$ 250,00"),
+            ("🌿", "Progressiva sem formol", "Reduz volume e frizz, sem formol.", "a partir de R$ 220,00"),
+            ("💧", "Hidratação", "Hidratação, nutrição ou reconstrução, conforme o fio.", "R$ 70,00"),
+        ],
+        "depoimentos": [("Tirei as dúvidas com o assistente à noite e no dia seguinte já estava com horário marcado.", "Camila, cliente"),
+                        ("Finalmente um salão que entende de cacho. Saí apaixonada pelo corte.", "Bianca, cliente")],
+        "horario": [("Terça e quarta", "9h às 19h"), ("Quinta e sexta", "9h às 20h"), ("Sábado", "8h às 17h"),
+                    ("Domingo e segunda", "Fechado")],
+        "endereco": "Rua das Hortênsias, 320 — Bairro Exemplo, Curitiba",
+        "msg": "Olá! Vi o modelo de site do salão e quero um site assim para o meu negócio.",
+        "assistente": {
+            "saudacao": "Olá! 😊 Sou o assistente virtual do Salão Fio de Seda. Posso tirar dúvidas sobre serviços, "
+                        "preços e horários, e já deixar o seu agendamento encaminhado. Como posso ajudar?",
+            # Índice 0 = domingo.
+            "dias": ["Fechado", "Fechado", "9h às 19h", "9h às 19h", "9h às 20h", "9h às 20h", "8h às 17h"],
+            "obs_horario": "Em feriados o horário muda; confirme pelo WhatsApp.",
+            "obs_preco": "Os valores de química (cor, mechas e progressiva) variam com o comprimento e o volume do "
+                         "cabelo. A profissional confirma o valor antes de começar.",
+            "pagamento": "Aceitamos Pix, dinheiro e cartão de débito e crédito. Serviços acima de R$ 200 podem ser "
+                         "parcelados em até 3x sem juros no cartão.",
+            "como_chegar": "Fica a duas quadras da praça do bairro, com estacionamento gratuito em frente.",
+            "servicos": {
+                "Corte feminino": {"tempo": "cerca de 1 hora",
+                                   "chaves": ["corte", "cortar", "aparar", "franja", "ponta", "repicado", "chanel", "camada"]},
+                "Escova": {"tempo": "cerca de 40 minutos",
+                           "chaves": ["escova", "escovar", "modelar", "babyliss", "chapinha", "prancha"]},
+                "Coloração": {"tempo": "cerca de 2 horas",
+                              "chaves": ["coloracao", "colorir", "pintar", "tinta", "tintura", "raiz", "branco",
+                                         "tonalizante", "cor"]},
+                "Mechas e luzes": {"tempo": "de 3 a 4 horas",
+                                   "chaves": ["mecha", "luzes", "luz", "loiro", "loira", "platinado", "balayage",
+                                              "ombre", "reflexo", "descolorir", "morena iluminada"]},
+                "Progressiva sem formol": {"tempo": "cerca de 3 horas",
+                                           "chaves": ["progressiva", "alisar", "alisamento", "liso", "lisa", "botox",
+                                                      "selagem", "frizz", "escova progressiva"]},
+                "Hidratação": {"tempo": "cerca de 45 minutos",
+                               "chaves": ["hidratacao", "hidratar", "tratamento", "nutricao", "reconstrucao",
+                                          "cronograma", "ressecado", "quebrado", "quebradico"]},
+            },
+            "faq": [
+                (["hora marcada", "precisa marcar", "sem marcar", "chegar direto", "ordem de chegada", "fila", "espera"],
+                 "Trabalhamos com hora marcada, para você não esperar. Se surgir encaixe no dia, a equipe avisa "
+                 "pelo WhatsApp. Quer que eu já encaminhe um agendamento?"),
+                (["cacheado", "cacho", "crespo", "ondulado", "curly", "finalizacao", "fitagem", "transicao"],
+                 "Sim! Temos profissional especializada em cachos e crespos: corte a seco, hidratação, fitagem e "
+                 "acompanhamento de transição capilar. O corte para cachos tem o mesmo valor do corte feminino (R$ 80)."),
+                (["noiva", "casamento", "penteado", "formatura", "festa", "madrinha", "debutante", "maquiagem", "make"],
+                 "Fazemos penteados para festas a partir de R$ 150 e pacotes para noivas com teste antes do grande dia. "
+                 "Maquiagem é feita por uma parceira, no próprio salão. Para datas especiais, vale agendar com antecedência."),
+                (["homem", "masculino", "menino", "marido", "barba"],
+                 "Atendemos homens também! Corte masculino a partir de R$ 45. Barba nós não fazemos."),
+                (["crianca", "infantil", "filho", "filha", "menina", "bebe"],
+                 "Atendemos crianças, sim. Corte infantil (até 10 anos) por R$ 40, com toda a paciência."),
+                (["estacionamento", "estacionar", "carro", "acessibilidade", "cadeira de roda", "escada"],
+                 "Temos estacionamento gratuito em frente ao salão, e a entrada é no térreo, sem escadas."),
+                (["produto", "shampoo", "vende", "vendem", "venda", "loja", "kit"],
+                 "Usamos produtos profissionais e também vendemos kits de manutenção para usar em casa. "
+                 "Pergunte à profissional qual combina com o seu cabelo."),
+                (["atraso", "atrasar", "atrasada", "atrasado", "desmarcar", "remarcar", "cancelar horario", "imprevisto"],
+                 "Sem problema: para remarcar, avise pelo WhatsApp com pelo menos 2 horas de antecedência. "
+                 "Atrasos de até 15 minutos a gente segura o horário."),
+                (["formol", "formaldeido", "gravida", "gestante", "gravidez", "amamentando", "alergia", "alergico"],
+                 "Nossa progressiva é sem formol. Para gestantes, lactantes ou quem tem alergia, recomendamos "
+                 "conversar com o médico antes de qualquer química. Corte, escova e hidratação estão liberados."),
+            ],
+        },
+    },
+    {
         "pasta": "restaurante", "nome": "Restaurante Tempero da Casa", "icone": "🍽️",
         "ramo": "restaurante",
         "cores": {"fundo": "#fffaf7", "cor": "#a4161a", "cor-escura": "#7a0f12", "cor-clara": "#fbe3e1"},
@@ -121,6 +210,25 @@ def link_zap(msg: str) -> str:
     return f"https://wa.me/{WHATS}?text={quote(msg)}"
 
 
+def dados_assistente(s: dict) -> dict:
+    """Informações que o assistente.js e o Worker da IA usam para responder."""
+    a = s["assistente"]
+    teste = f"Olá! Testei o assistente virtual do modelo de {s['ramo']} e quero um assim no site do meu negócio."
+    dados = {
+        "nome": s["nome"], "ramo": s["ramo"], "icone": s["icone"], "saudacao": a["saudacao"],
+        "negocio": s["pasta"], "ia": f"{IA_URL}/conversa" if IA_URL else "",
+        "servicos": [{"nome": t, "preco": p, "desc": d, **a["servicos"][t]} for _, t, d, p in s["itens"]],
+        "faq": [{"chaves": c, "resposta": r} for c, r in a["faq"]],
+        "horario": s["horario"], "dias": a["dias"], "obs_horario": a["obs_horario"],
+        "endereco": s["endereco"], "como_chegar": a["como_chegar"],
+        "pagamento": a["pagamento"], "obs_preco": a["obs_preco"],
+        # Os modelos são de negócios fictícios: o WhatsApp é o de quem faz os sites.
+        "whats": WHATS, "msg_humano": teste, "msg_agendamento": teste + "\n\nPedido de teste:\n{resumo}",
+        "nota_whats": f"Site modelo: este botão abre o WhatsApp de {AUTORA}, que faz os sites, e não de um salão de verdade.",
+    }
+    return dados
+
+
 def pagina(s: dict) -> str:
     e = escape
     cores = "".join(f"--{k}: {v}; " for k, v in s["cores"].items())
@@ -133,6 +241,15 @@ def pagina(s: dict) -> str:
         for t, a in s["depoimentos"])
     horario = "".join(f"<tr><td>{e(d)}</td><td>{e(h)}</td></tr>" for d, h in s["horario"])
     selos = "".join(f"<span>{e(x)}</span>" for x in s["selos"])
+    if s.get("assistente"):
+        assistente = (f'<script type="application/json" id="dados-assistente">'
+                      f'{json.dumps(dados_assistente(s), ensure_ascii=False).replace("</", "<\\/")}</script>\n'
+                      '<script src="../assistente.js" defer></script>\n')
+        convite = ("Este modelo vem com um assistente virtual que responde os clientes sozinho, a qualquer hora, "
+                   "sem mensalidade de IA. Toque em “Dúvidas? Pergunte aqui” para testar.")
+    else:
+        assistente = ""
+        convite = "Seu negócio pode ter um assim: rápido, seguro e pronto para o celular."
     return f"""<!doctype html>
 <html lang="pt-BR">
 <head>
@@ -184,7 +301,7 @@ def pagina(s: dict) -> str:
 
 <section class="final"><div class="envolve">
   <h2>Gostou deste site?</h2>
-  <p>Seu negócio pode ter um assim: rápido, seguro e pronto para o celular.</p>
+  <p>{e(convite)}</p>
   <a class="botao" href="{e(zap)}" target="_blank" rel="noopener">Quero um site assim</a>
 </div></section>
 </main>
@@ -195,7 +312,7 @@ def pagina(s: dict) -> str:
 </div></footer>
 
 <a class="zap" href="{e(zap)}" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">{ICONE_ZAP}</a>
-</body>
+{assistente}</body>
 </html>
 """
 
@@ -205,7 +322,8 @@ def galeria() -> str:
     zap = link_zap("Olá! Vi os modelos de site e quero conversar sobre um site para o meu negócio.")
     cartoes = "\n".join(
         f'<a class="cartao" href="{s["pasta"]}/" style="text-decoration:none;color:inherit">'
-        f'<div class="icone">{s["icone"]}</div><h3>{e(s["nome"])}</h3><p>Modelo para {e(s["ramo"])}.</p>'
+        f'<div class="icone">{s["icone"]}</div><h3>{e(s["nome"])}</h3><p>Modelo para {e(s["ramo"])}.'
+        f'{" Com assistente virtual que responde sozinho." if s.get("assistente") else ""}</p>'
         f'<span class="preco">Ver modelo →</span></a>' for s in SITES)
     return f"""<!doctype html>
 <html lang="pt-BR">
@@ -259,5 +377,8 @@ if __name__ == "__main__":
     for s in SITES:
         (PASTA / s["pasta"]).mkdir(exist_ok=True)
         (PASTA / s["pasta"] / "index.html").write_text(pagina(s), encoding="utf-8")
+        if s.get("assistente"):
+            (PASTA / "ia" / "src" / "dados" / f'{s["pasta"]}.json').write_text(
+                json.dumps(dados_assistente(s), ensure_ascii=False, indent=1), encoding="utf-8")
     (PASTA / "index.html").write_text(galeria(), encoding="utf-8")
     print("Gerado: index.html, " + ", ".join(f"{s['pasta']}/index.html" for s in SITES))

@@ -1,0 +1,11 @@
+{
+  "name": "assistente-sites-modelo",
+  "private": true,
+  "scripts": {
+    "login": "wrangler login",
+    "publicar": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.151.3"
+  }
+}

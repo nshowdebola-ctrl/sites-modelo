@@ -1,0 +1,257 @@
+{
+ "nome": "Salão Fio de Seda",
+ "ramo": "salão de cabeleireiro",
+ "icone": "💇‍♀️",
+ "saudacao": "Olá! 😊 Sou o assistente virtual do Salão Fio de Seda. Posso tirar dúvidas sobre serviços, preços e horários, e já deixar o seu agendamento encaminhado. Como posso ajudar?",
+ "negocio": "salao",
+ "ia": "https://assistente-sites-modelo.assistente-sites-modelo.workers.dev/conversa",
+ "servicos": [
+  {
+   "nome": "Corte feminino",
+   "preco": "R$ 80,00",
+   "desc": "Lavagem, corte e finalização. Também corte a seco para cachos.",
+   "tempo": "cerca de 1 hora",
+   "chaves": [
+    "corte",
+    "cortar",
+    "aparar",
+    "franja",
+    "ponta",
+    "repicado",
+    "chanel",
+    "camada"
+   ]
+  },
+  {
+   "nome": "Escova",
+   "preco": "a partir de R$ 50,00",
+   "desc": "Escova modelada, lisa ou com movimento.",
+   "tempo": "cerca de 40 minutos",
+   "chaves": [
+    "escova",
+    "escovar",
+    "modelar",
+    "babyliss",
+    "chapinha",
+    "prancha"
+   ]
+  },
+  {
+   "nome": "Coloração",
+   "preco": "a partir de R$ 120,00",
+   "desc": "Retoque de raiz ou cor global, cobrindo os fios brancos.",
+   "tempo": "cerca de 2 horas",
+   "chaves": [
+    "coloracao",
+    "colorir",
+    "pintar",
+    "tinta",
+    "tintura",
+    "raiz",
+    "branco",
+    "tonalizante",
+    "cor"
+   ]
+  },
+  {
+   "nome": "Mechas e luzes",
+   "preco": "a partir de R$ 250,00",
+   "desc": "Luzes, balayage e morena iluminada.",
+   "tempo": "de 3 a 4 horas",
+   "chaves": [
+    "mecha",
+    "luzes",
+    "luz",
+    "loiro",
+    "loira",
+    "platinado",
+    "balayage",
+    "ombre",
+    "reflexo",
+    "descolorir",
+    "morena iluminada"
+   ]
+  },
+  {
+   "nome": "Progressiva sem formol",
+   "preco": "a partir de R$ 220,00",
+   "desc": "Reduz volume e frizz, sem formol.",
+   "tempo": "cerca de 3 horas",
+   "chaves": [
+    "progressiva",
+    "alisar",
+    "alisamento",
+    "liso",
+    "lisa",
+    "botox",
+    "selagem",
+    "frizz",
+    "escova progressiva"
+   ]
+  },
+  {
+   "nome": "Hidratação",
+   "preco": "R$ 70,00",
+   "desc": "Hidratação, nutrição ou reconstrução, conforme o fio.",
+   "tempo": "cerca de 45 minutos",
+   "chaves": [
+    "hidratacao",
+    "hidratar",
+    "tratamento",
+    "nutricao",
+    "reconstrucao",
+    "cronograma",
+    "ressecado",
+    "quebrado",
+    "quebradico"
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "chaves": [
+    "hora marcada",
+    "precisa marcar",
+    "sem marcar",
+    "chegar direto",
+    "ordem de chegada",
+    "fila",
+    "espera"
+   ],
+   "resposta": "Trabalhamos com hora marcada, para você não esperar. Se surgir encaixe no dia, a equipe avisa pelo WhatsApp. Quer que eu já encaminhe um agendamento?"
+  },
+  {
+   "chaves": [
+    "cacheado",
+    "cacho",
+    "crespo",
+    "ondulado",
+    "curly",
+    "finalizacao",
+    "fitagem",
+    "transicao"
+   ],
+   "resposta": "Sim! Temos profissional especializada em cachos e crespos: corte a seco, hidratação, fitagem e acompanhamento de transição capilar. O corte para cachos tem o mesmo valor do corte feminino (R$ 80)."
+  },
+  {
+   "chaves": [
+    "noiva",
+    "casamento",
+    "penteado",
+    "formatura",
+    "festa",
+    "madrinha",
+    "debutante",
+    "maquiagem",
+    "make"
+   ],
+   "resposta": "Fazemos penteados para festas a partir de R$ 150 e pacotes para noivas com teste antes do grande dia. Maquiagem é feita por uma parceira, no próprio salão. Para datas especiais, vale agendar com antecedência."
+  },
+  {
+   "chaves": [
+    "homem",
+    "masculino",
+    "menino",
+    "marido",
+    "barba"
+   ],
+   "resposta": "Atendemos homens também! Corte masculino a partir de R$ 45. Barba nós não fazemos."
+  },
+  {
+   "chaves": [
+    "crianca",
+    "infantil",
+    "filho",
+    "filha",
+    "menina",
+    "bebe"
+   ],
+   "resposta": "Atendemos crianças, sim. Corte infantil (até 10 anos) por R$ 40, com toda a paciência."
+  },
+  {
+   "chaves": [
+    "estacionamento",
+    "estacionar",
+    "carro",
+    "acessibilidade",
+    "cadeira de roda",
+    "escada"
+   ],
+   "resposta": "Temos estacionamento gratuito em frente ao salão, e a entrada é no térreo, sem escadas."
+  },
+  {
+   "chaves": [
+    "produto",
+    "shampoo",
+    "vende",
+    "vendem",
+    "venda",
+    "loja",
+    "kit"
+   ],
+   "resposta": "Usamos produtos profissionais e também vendemos kits de manutenção para usar em casa. Pergunte à profissional qual combina com o seu cabelo."
+  },
+  {
+   "chaves": [
+    "atraso",
+    "atrasar",
+    "atrasada",
+    "atrasado",
+    "desmarcar",
+    "remarcar",
+    "cancelar horario",
+    "imprevisto"
+   ],
+   "resposta": "Sem problema: para remarcar, avise pelo WhatsApp com pelo menos 2 horas de antecedência. Atrasos de até 15 minutos a gente segura o horário."
+  },
+  {
+   "chaves": [
+    "formol",
+    "formaldeido",
+    "gravida",
+    "gestante",
+    "gravidez",
+    "amamentando",
+    "alergia",
+    "alergico"
+   ],
+   "resposta": "Nossa progressiva é sem formol. Para gestantes, lactantes ou quem tem alergia, recomendamos conversar com o médico antes de qualquer química. Corte, escova e hidratação estão liberados."
+  }
+ ],
+ "horario": [
+  [
+   "Terça e quarta",
+   "9h às 19h"
+  ],
+  [
+   "Quinta e sexta",
+   "9h às 20h"
+  ],
+  [
+   "Sábado",
+   "8h às 17h"
+  ],
+  [
+   "Domingo e segunda",
+   "Fechado"
+  ]
+ ],
+ "dias": [
+  "Fechado",
+  "Fechado",
+  "9h às 19h",
+  "9h às 19h",
+  "9h às 20h",
+  "9h às 20h",
+  "8h às 17h"
+ ],
+ "obs_horario": "Em feriados o horário muda; confirme pelo WhatsApp.",
+ "endereco": "Rua das Hortênsias, 320 — Bairro Exemplo, Curitiba",
+ "como_chegar": "Fica a duas quadras da praça do bairro, com estacionamento gratuito em frente.",
+ "pagamento": "Aceitamos Pix, dinheiro e cartão de débito e crédito. Serviços acima de R$ 200 podem ser parcelados em até 3x sem juros no cartão.",
+ "obs_preco": "Os valores de química (cor, mechas e progressiva) variam com o comprimento e o volume do cabelo. A profissional confirma o valor antes de começar.",
+ "whats": "5541974002540",
+ "msg_humano": "Olá! Testei o assistente virtual do modelo de salão de cabeleireiro e quero um assim no site do meu negócio.",
+ "msg_agendamento": "Olá! Testei o assistente virtual do modelo de salão de cabeleireiro e quero um assim no site do meu negócio.\n\nPedido de teste:\n{resumo}",
+ "nota_whats": "Site modelo: este botão abre o WhatsApp de Lorrane Jose, que faz os sites, e não de um salão de verdade."
+}
