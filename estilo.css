@@ -124,6 +124,8 @@ footer .envolve { display: flex; flex-wrap: wrap; justify-content: space-between
 .assist-msg .botao:hover { background: #1da851; }
 .assist-msg small { display: block; margin-top: 6px; color: var(--suave); font-size: 12.5px; line-height: 1.35; }
 .assist-digitando { color: var(--suave); letter-spacing: 3px; }
+.assist-origem { display: block; margin-bottom: 3px; color: var(--suave); font-size: 11.5px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; }
+.assist-origem.ia { color: var(--cor); }
 .assist-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px; }
 .assist-chips button { border: 1.5px solid var(--cor); background: var(--cartao); color: var(--cor-escura); border-radius: 999px;
   padding: 6px 12px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }

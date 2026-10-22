@@ -388,8 +388,11 @@ if (typeof document !== 'undefined') (() => {
     }));
   }
 
+  // Com a IA ligada, cada resposta mostra quem respondeu: a IA ou o assistente local.
+  const origem = ia => D.ia ? `<span class="assist-origem${ia ? ' ia' : ''}">${ia ? '✨ IA' : '⚡ Automático'}</span>` : '';
+
   function mostrar(r) {
-    const div = bolha('robo', formata(r.texto));
+    const div = bolha('robo', origem(r.ia) + formata(r.texto));
     if (r.link) {
       const a = document.createElement('a');
       Object.assign(a, { className: 'botao', href: r.link.href, target: '_blank', rel: 'noopener', textContent: r.link.rotulo });
@@ -412,7 +415,7 @@ if (typeof document !== 'undefined') (() => {
         signal: parar.signal,
       });
       const { resposta } = r.ok ? await r.json() : {};
-      return resposta ? { texto: resposta, chips: ['Quero agendar', 'Falar com a equipe'] } : null;
+      return resposta ? { texto: resposta, chips: ['Quero agendar', 'Falar com a equipe'], ia: true } : null;
     } catch {
       return null;
     } finally {
@@ -429,7 +432,7 @@ if (typeof document !== 'undefined') (() => {
     campo.value = '';
     mostrarChips([]);
     historico.push({ role: 'user', content: texto });
-    const digitando = bolha('robo assist-digitando', '•••');
+    const digitando = bolha('robo assist-digitando', D.ia ? (local ? '⚡ •••' : '✨ •••') : '•••');
     const r = (!local && await perguntarIA()) || bot.responder(texto);
     historico.push({ role: 'assistant', content: r.texto });
     // A resposta local é instantânea: uma pausa curta deixa a conversa mais natural.
