@@ -15,9 +15,9 @@ from html import escape
 from pathlib import Path
 from urllib.parse import quote
 
-AUTORA = "Lorrane Jose"
-WHATS = "5541974002540"
-WHATS_TEXTO = "(41) 97400-2540"
+AUTORA = "Conecta AL"
+WHATS = "5541997868805"
+WHATS_TEXTO = "(41) 99786-8805"
 EMAIL = "ccbgyn2000@gmail.com"
 PASTA = Path(__file__).resolve().parent
 # Endereço do Worker depois de publicado (ia/LEIA-ME.md), por exemplo
@@ -224,7 +224,7 @@ def dados_assistente(s: dict) -> dict:
         "pagamento": a["pagamento"], "obs_preco": a["obs_preco"],
         # Os modelos são de negócios fictícios: o WhatsApp é o de quem faz os sites.
         "whats": WHATS, "msg_humano": teste, "msg_agendamento": teste + "\n\nPedido de teste:\n{resumo}",
-        "nota_whats": f"Site modelo: este botão abre o WhatsApp de {AUTORA}, que faz os sites, e não de um salão de verdade.",
+        "nota_whats": f"Site modelo: este botão abre o WhatsApp da {AUTORA}, que faz os sites, e não de um salão de verdade.",
     }
     return dados
 
